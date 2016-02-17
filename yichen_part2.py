@@ -4,7 +4,7 @@ import re
 
 
 
-def test_format_sign(line):
+def extract_phone(line):
     info_list = line.split('<br/>')
     name = ""
     phone = ""
@@ -16,15 +16,16 @@ def test_format_sign(line):
             if idx>0:
                 name = name[0:idx]
         if re.compile('手机.*|电话.*').match(e) and re.compile('.*\d{11}').match(e) :
-            m = re.search('\d{11}',e)
+            m = re.search('1\d{10}',e)
             if m:
                 phone = m.group()
-    if name !="" and phone !="":
-        print name +"," +phone
+    if phone !="":
+        return phone
 
 
 filename = "yichen.txt"
 with open(filename) as f:
     content = f.read().splitlines()
     for line in content:
-        test_format_sign(line)
+        phone = extract_phone(line)
+        print phone
