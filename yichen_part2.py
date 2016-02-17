@@ -23,9 +23,22 @@ def extract_phone(line):
         return phone
 
 
+def get_phone(line):
+    print line
+    phone=""
+    info_list = line.split('<br/>')
+    for e in info_list:
+        if re.compile('电.*|固话.*|手机.*|电话.*|.*手机.*').match(e) and re.compile('.*1\d{10}').match(e) :
+            m = re.search('1\d{10}',e)
+            if m:
+                phone = m.group()
+
+    return phone
+
+
 filename = "yichen.txt"
 with open(filename) as f:
     content = f.read().splitlines()
     for line in content:
-        phone = extract_phone(line)
+        phone = get_phone(line)
         print phone

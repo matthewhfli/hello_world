@@ -4,9 +4,23 @@ import urllib2
 from BeautifulSoup import BeautifulSoup
 import re
 
+
+def get_phone(line):
+    #print line
+    phone=""
+    info_list = line.split('<br/>')
+    for e in info_list:
+        if re.compile('电.*|固话.*|手机.*|电话.*|.*手机.*').match(e) and re.compile('.*1\d{10}').match(e) :
+            m = re.search('1\d{10}',e)
+            if m:
+                phone = m.group()
+
+    return phone
+
 boardid = str(166)
 urlhome = 'http://www.xx007.cn/'
-siglineset = set();
+siglineset = set()
+phoneset = set()
 
 #init.加载siglineset
 filename = "yichen.txt"
@@ -15,7 +29,12 @@ with open(filename) as f:
     for line in content:
         #print line
         siglineset.add(line)
-
+#加载phoneset
+file_phone = "phone.txt"
+with open(file_phone) as f:
+    content = f.read().splitlines()
+    for line in content:
+        phoneset.add(line)
 #板块
 urlboard = 'http://www.xx007.cn/index.asp?boardid=166'
 html = urllib2.urlopen(urlboard).read()
@@ -60,7 +79,13 @@ for i in range(1,page+1):
                 myfile = open(filename,'a+')
                 myfile.write(strsigline+"\n")
                 myfile.close()
-
+            myphone = get_phone(strsigline)
+            if myphone not in phoneset:
+                phoneset.add(myphone)
+                print myphone
+                thefile = open(file_phone,'a+')
+                thefile.write(myphone+"\n")
+                thefile.close()
         #帖子的其他页
         uurls = notesoup.findAll('a',attrs={'href':re.compile('^dispbbs.*')})
         if len(uurls):
@@ -82,3 +107,10 @@ for i in range(1,page+1):
                         myfile = open(filename,'a+')
                         myfile.write(strsigline+"\n")
                         myfile.close()
+                    myphone = get_phone(strsigline)
+                    if myphone not in phoneset:
+                        phoneset.add(myphone)
+                        print myphone
+                        thefile = open(file_phone,'a+')
+                        thefile.write(myphone+"\n")
+                        thefile.close()
