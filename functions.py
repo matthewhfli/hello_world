@@ -1,9 +1,6 @@
 # coding=utf-8
 import re
 
-
-
-
 def extract_phone(line):
     info_list = line.split('<br/>')
     name = ""
@@ -24,7 +21,7 @@ def extract_phone(line):
 
 
 def get_phone(line):
-    print line
+    #print line
     phone=""
     info_list = line.split('<br/>')
     for e in info_list:
@@ -36,9 +33,9 @@ def get_phone(line):
     return phone
 
 
-filename = "yichen.txt"
-with open(filename) as f:
-    content = f.read().splitlines()
-    for line in content:
-        phone = get_phone(line)
-        print phone
+# filename = "yichen.txt"
+# with open(filename) as f:
+#     content = f.read().splitlines()
+#     for line in content:
+#         phone = get_phone(line)
+#         print phone

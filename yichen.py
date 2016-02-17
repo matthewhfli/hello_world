@@ -3,21 +3,10 @@
 import urllib2
 from BeautifulSoup import BeautifulSoup
 import re
+import functions
 
 
-def get_phone(line):
-    #print line
-    phone=""
-    info_list = line.split('<br/>')
-    for e in info_list:
-        if re.compile('电.*|固话.*|手机.*|电话.*|.*手机.*').match(e) and re.compile('.*1\d{10}').match(e) :
-            m = re.search('1\d{10}',e)
-            if m:
-                phone = m.group()
-
-    return phone
-
-boardid = str(166)
+boardid = str(198)
 urlhome = 'http://www.xx007.cn/'
 siglineset = set()
 phoneset = set()
@@ -36,7 +25,7 @@ with open(file_phone) as f:
     for line in content:
         phoneset.add(line)
 #板块
-urlboard = 'http://www.xx007.cn/index.asp?boardid=166'
+urlboard = 'http://www.xx007.cn/index.asp?boardid='+boardid
 html = urllib2.urlopen(urlboard).read()
 html = html.decode('gbk')
 #print html
@@ -49,10 +38,10 @@ for i in range(len(tds)):
     if i==2:
         tempstr = tds[i].text
 page = int(tempstr[tempstr.index("/")+1:tempstr.index(u'页')])
-#print page
+print page
 
 for i in range(1,page+1):
-#    print "第"+str(i)+"页开始...."
+    print "第"+str(i)+"页开始...."
     url = urlhome + "index.asp?boardid=" + boardid + "&action=&topicmode=0&page=" + str(i)
     #http://www.xx007.cn/index.asp?boardid=166&action=&topicmode=0&page=2
     #print url
@@ -79,7 +68,7 @@ for i in range(1,page+1):
                 myfile = open(filename,'a+')
                 myfile.write(strsigline+"\n")
                 myfile.close()
-            myphone = get_phone(strsigline)
+            myphone = functions.get_phone(strsigline)
             if myphone not in phoneset:
                 phoneset.add(myphone)
                 print myphone
@@ -107,7 +96,7 @@ for i in range(1,page+1):
                         myfile = open(filename,'a+')
                         myfile.write(strsigline+"\n")
                         myfile.close()
-                    myphone = get_phone(strsigline)
+                    myphone = functions.get_phone(strsigline)
                     if myphone not in phoneset:
                         phoneset.add(myphone)
                         print myphone
