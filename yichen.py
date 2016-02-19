@@ -6,7 +6,7 @@ import re
 import functions
 
 
-boardid = str(23)
+boardid = str(16)
 urlhome = 'http://www.xx007.cn/'
 siglineset = set()
 phoneset = set()
@@ -31,7 +31,7 @@ html = html.decode('gbk')
 #print html
 soup = BeautifulSoup(html)
 
-#找出玉器板块所有帖子(note)的页数
+#找出板块内所有帖子(note)的页数
 tempstr = '';
 tds = soup.findAll('td',attrs={'class':'tabletitle1'})
 for i in range(len(tds)):
@@ -51,7 +51,7 @@ for i in range(1,page+1):
 
     for title in listtitle:
         link = urlhome + title.a["href"]
-        #print link
+        print link
         note = urllib2.urlopen(link).read()
         note = note.decode('gb18030')
         #print note
@@ -81,7 +81,7 @@ for i in range(1,page+1):
             uurls.pop()
             for u in uurls:
                 otherurl = urlhome + u["href"]
-                #print otherurl
+                print "otherurl:"+otherurl
                 othernote = urllib2.urlopen(otherurl).read()
                 othernote = othernote.decode('gb18030')
                 othersoup = BeautifulSoup(othernote)
