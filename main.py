@@ -24,6 +24,7 @@ with open(file_phone) as f:
 
 print "starting parse...."
 for link in urladmin.getallurl():
+    print "parsing..."+ link
     note = ""
     try:
         note = urllib2.urlopen(link).read()

@@ -47,6 +47,7 @@ for i in range(1,page+1):
     print url
     html = urllib2.urlopen(url).read()
     html = html.decode('gb18030')
+    soup = BeautifulSoup(html)
     listtitle = soup.findAll('div', attrs={'class':'listtitle'})
 
     for title in listtitle:
