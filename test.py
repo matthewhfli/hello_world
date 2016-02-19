@@ -1,6 +1,6 @@
 # coding=utf-8
 import urladmin
 
-boardset = urladmin.getboardurl()
-for b in boardset:
+uset = urladmin.getallnoteurl()
+for b in uset:
     print b

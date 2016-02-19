@@ -6,7 +6,7 @@ import re
 import functions
 
 
-boardid = str(166)
+boardid = str(187)
 urlhome = 'http://www.xx007.cn/'
 siglineset = set()
 phoneset = set()
@@ -52,7 +52,12 @@ for i in range(1,page+1):
         print "urlopen erro is here..."
         continue
     html = html.decode('gb18030')
-    soup = BeautifulSoup(html)
+    soup = ""
+    try:
+        soup = BeautifulSoup(html)
+    except:
+        print "soup erro!"
+        continue
     listtitle = soup.findAll('div', attrs={'class':'listtitle'})
 
     for title in listtitle:
@@ -66,7 +71,12 @@ for i in range(1,page+1):
             continue
         note = note.decode('gb18030')
         #print note
-        notesoup = BeautifulSoup(note)
+        notesoup = ""
+        try:
+            notesoup = BeautifulSoup(note)
+        except:
+            print "notesoup erro"
+            continue
         #帖子的第一页
         siglines = notesoup.findAll('div',attrs={'style':'width:85%;overflow-x: hidden;'})
         for sigline in siglines:
@@ -92,7 +102,7 @@ for i in range(1,page+1):
             uurls.pop()
             for u in uurls:
                 otherurl = urlhome + u["href"]
-                print "otherurl:"+otherurl
+                print otherurl
                 othernote = ""
                 try:
                     othernote = urllib2.urlopen(otherurl).read()
@@ -100,7 +110,12 @@ for i in range(1,page+1):
                     print "urlopen erro is here..."
                     continue
                 othernote = othernote.decode('gb18030')
-                othersoup = BeautifulSoup(othernote)
+                othersoup = ""
+                try:
+                    othersoup = BeautifulSoup(othernote)
+                except:
+                    print "othersoup erro"
+                    continue
                 siglines = othersoup.findAll('div',attrs={'style':'width:85%;overflow-x: hidden;'})
                 for sigline in siglines:
                     strsigline = str(sigline)

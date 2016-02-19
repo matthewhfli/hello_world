@@ -5,17 +5,18 @@ from BeautifulSoup import BeautifulSoup
 import re
 import functions
 
+urlhome = 'http://www.xx007.cn/'
 siglineset = set()
 phoneset = set()
 
-#加载siglineset
+# 加载siglineset
 filename = "yichen.txt"
 with open(filename) as f:
     content = f.read().splitlines()
     for line in content:
-        #print line
+        # print line
         siglineset.add(line)
-#加载phoneset
+# 加载phoneset
 file_phone = "phone.txt"
 with open(file_phone) as f:
     content = f.read().splitlines()
@@ -23,13 +24,14 @@ with open(file_phone) as f:
         phoneset.add(line)
 
 print "starting parse...."
+
 for link in urladmin.getallurl():
-    print "parsing..."+ link
+    print link
     note = ""
     try:
         note = urllib2.urlopen(link).read()
     except:
-        print "urlopen erro existiong here..."
+        print "urlopen erro"
         continue
     note = note.decode('gb18030')
     # print note
@@ -53,3 +55,41 @@ for link in urladmin.getallurl():
             thefile = open(file_phone, 'a+')
             thefile.write(myphone + "\n")
             thefile.close()
+    # 帖子的其他页
+    uurls = notesoup.findAll('a', attrs={'href': re.compile('^dispbbs.*')})
+    if len(uurls):
+        uurls.pop()
+        for u in uurls:
+            otherurl = urlhome + u["href"]
+            print otherurl
+            othernote = ""
+            try:
+                othernote = urllib2.urlopen(otherurl).read()
+            except:
+                print "urlopen erro is here..."
+                continue
+            othernote = othernote.decode('gb18030')
+            othersoup = ""
+            try:
+                othersoup = BeautifulSoup(othernote)
+            except:
+                print "othersoup erro"
+                continue
+            siglines = othersoup.findAll('div', attrs={'style': 'width:85%;overflow-x: hidden;'})
+            for sigline in siglines:
+                strsigline = str(sigline)
+                strsigline = strsigline[strsigline.index('<img'):]
+                strsigline = "".join(strsigline.split())
+                if strsigline not in siglineset:
+                    siglineset.add(strsigline)
+                    print strsigline
+                    myfile = open(filename, 'a+')
+                    myfile.write(strsigline + "\n")
+                    myfile.close()
+                myphone = functions.get_phone(strsigline)
+                if myphone not in phoneset:
+                    phoneset.add(myphone)
+                    print myphone
+                    thefile = open(file_phone, 'a+')
+                    thefile.write(myphone + "\n")
+                    thefile.close()
