@@ -6,7 +6,7 @@ import re
 import functions
 
 
-boardid = str(16)
+boardid = str(166)
 urlhome = 'http://www.xx007.cn/'
 siglineset = set()
 phoneset = set()
@@ -45,7 +45,12 @@ for i in range(1,page+1):
     url = urlhome + "index.asp?boardid=" + boardid + "&action=&topicmode=0&page=" + str(i)
     #http://www.xx007.cn/index.asp?boardid=166&action=&topicmode=0&page=2
     print url
-    html = urllib2.urlopen(url).read()
+    html = ""
+    try:
+        html = urllib2.urlopen(url).read()
+    except:
+        print "urlopen erro is here..."
+        continue
     html = html.decode('gb18030')
     soup = BeautifulSoup(html)
     listtitle = soup.findAll('div', attrs={'class':'listtitle'})
@@ -53,7 +58,12 @@ for i in range(1,page+1):
     for title in listtitle:
         link = urlhome + title.a["href"]
         print link
-        note = urllib2.urlopen(link).read()
+        note = ""
+        try:
+            note = urllib2.urlopen(link).read()
+        except:
+            print "urlopen erro is here..."
+            continue
         note = note.decode('gb18030')
         #print note
         notesoup = BeautifulSoup(note)
@@ -83,7 +93,12 @@ for i in range(1,page+1):
             for u in uurls:
                 otherurl = urlhome + u["href"]
                 print "otherurl:"+otherurl
-                othernote = urllib2.urlopen(otherurl).read()
+                othernote = ""
+                try:
+                    othernote = urllib2.urlopen(otherurl).read()
+                except:
+                    print "urlopen erro is here..."
+                    continue
                 othernote = othernote.decode('gb18030')
                 othersoup = BeautifulSoup(othernote)
                 siglines = othersoup.findAll('div',attrs={'style':'width:85%;overflow-x: hidden;'})
