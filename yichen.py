@@ -6,7 +6,7 @@ import re
 import functions
 
 
-boardid = str(198)
+boardid = str(23)
 urlhome = 'http://www.xx007.cn/'
 siglineset = set()
 phoneset = set()
@@ -44,7 +44,7 @@ for i in range(1,page+1):
     print "第"+str(i)+"页开始...."
     url = urlhome + "index.asp?boardid=" + boardid + "&action=&topicmode=0&page=" + str(i)
     #http://www.xx007.cn/index.asp?boardid=166&action=&topicmode=0&page=2
-    #print url
+    print url
     html = urllib2.urlopen(url).read()
     html = html.decode('gb18030')
     listtitle = soup.findAll('div', attrs={'class':'listtitle'})
