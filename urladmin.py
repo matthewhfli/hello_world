@@ -38,8 +38,8 @@ def getallurl():
                 urlnoteset.add(urlnote)
     return urlnoteset
 
-for url in getallurl():
-    print url
+# for url in getallurl():
+#     print url
 
 
 
