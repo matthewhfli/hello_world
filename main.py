@@ -69,13 +69,9 @@ for link in urladmin.getallnoteurl():
             othernote = ""
             try:
                 othernote = urllib2.urlopen(otherurl).read()
-            except:
-                print "urlopen erro is here..."
-                continue
-            othernote = ""
-            try:
                 othernote = othernote.decode('gb18030')
             except:
+                print "urlopen erro is here..."
                 continue
             othersoup = ""
             try:
