@@ -5,42 +5,6 @@ from BeautifulSoup import BeautifulSoup
 import re
 
 
-def getallurl():
-    print "programming is collecting urls,pls waiting..."
-
-    urlhome = 'http://www.xx007.cn/'
-    urlboardset = set()
-    urlnoteset = set()
-
-    html = urllib2.urlopen(urlhome).read()
-    html = html.decode('gbk')
-    soup = BeautifulSoup(html)
-    boardlist = soup.findAll('a', attrs={'href': re.compile('^index\.asp\?boardid=.*')})
-
-    for board in boardlist:
-        urlboard = urlhome + board['href']
-        if urlboard not in urlboardset:
-            urlboardset.add(urlboard)
-
-    for urlboard in urlboardset:
-        # print urlboard
-        html = urllib2.urlopen(urlboard).read()
-        html = html.decode('gb18030')
-        soup = ""
-        try:
-            soup = BeautifulSoup(html)
-        except:
-            # print "erro exits here..."
-            continue
-        listtitle = soup.findAll('div', attrs={'class': 'listtitle'})
-        for title in listtitle:
-            urlnote = urlhome + title.a["href"]
-            print urlnote
-            if urlnote not in urlnoteset:
-                urlnoteset.add(urlnote)
-    return urlnoteset
-
-
 def getboardurl():
     urlhome = 'http://www.xx007.cn/'
     urlboardset = set()
@@ -62,13 +26,13 @@ def getallnoteurl():
     urlboardset = getboardurl()
     for urlboard in urlboardset:
         print urlboard
-        html = urllib2.urlopen(urlboard).read()
-        html = html.decode('gb18030')
+        html = ""
         soup = ""
         try:
+            html = urllib2.urlopen(urlboard,timeout=30).read()
+            html = html.decode('gb18030')
             soup = BeautifulSoup(html)
         except:
-            print "urlboard soup erro"
             continue
 
         # 找出板块内所有帖子(note)的页数
@@ -93,7 +57,7 @@ def getallnoteurl():
             html=""
             soup = ""
             try:
-                html = urllib2.urlopen(url).read()
+                html = urllib2.urlopen(url,timeout=30).read()
                 html = html.decode('gb18030')
                 soup = BeautifulSoup(html)
             except:
@@ -108,6 +72,3 @@ def getallnoteurl():
                     print urlnote
     return urlnoteset
 
-# 测试
-# for url in getallurl():
-#     print url

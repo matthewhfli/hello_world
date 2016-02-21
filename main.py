@@ -4,7 +4,10 @@ import urllib2
 from BeautifulSoup import BeautifulSoup
 import re
 import functions
+import logging
 
+logging.basicConfig(filename='program.log',level=logging.DEBUG)
+logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
 urlhome = 'http://www.xx007.cn/'
 siglineset = set()
 phoneset = set()
@@ -24,19 +27,16 @@ with open(file_phone) as f:
         phoneset.add(line)
 
 print "starting parse...."
-
-for link in urladmin.getallnoteurl():
+logging.info('geting allnoteurl start')
+links = urladmin.getallnoteurl()
+logging.info('parsing start')
+for link in links:
     print link
     note = ""
-    try:
-        note = urllib2.urlopen(link).read()
-        note = note.decode('gb18030')
-    except:
-        continue
-
-    # print note
     notesoup = ""
     try:
+        note = urllib2.urlopen(link,timeout=30).read()
+        note = note.decode('gb18030')
         notesoup = BeautifulSoup(note)
     except:
         continue
@@ -67,17 +67,12 @@ for link in urladmin.getallnoteurl():
             otherurl = urlhome + u["href"]
             print otherurl
             othernote = ""
-            try:
-                othernote = urllib2.urlopen(otherurl).read()
-                othernote = othernote.decode('gb18030')
-            except:
-                print "urlopen erro is here..."
-                continue
             othersoup = ""
             try:
+                othernote = urllib2.urlopen(otherurl,timeout=30).read()
+                othernote = othernote.decode('gb18030')
                 othersoup = BeautifulSoup(othernote)
             except:
-                print "othersoup erro"
                 continue
             siglines = othersoup.findAll('div', attrs={'style': 'width:85%;overflow-x: hidden;'})
             for sigline in siglines:
@@ -97,3 +92,4 @@ for link in urladmin.getallnoteurl():
                     thefile = open(file_phone, 'a+')
                     thefile.write(myphone + "\n")
                     thefile.close()
+logging('parsing over')
