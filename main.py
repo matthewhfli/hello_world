@@ -25,17 +25,21 @@ with open(file_phone) as f:
 
 print "starting parse...."
 
-for link in urladmin.getallurl():
+for link in urladmin.getallnoteurl():
     print link
     note = ""
     try:
         note = urllib2.urlopen(link).read()
+        note = note.decode('gb18030')
     except:
-        print "urlopen erro"
         continue
-    note = note.decode('gb18030')
+
     # print note
-    notesoup = BeautifulSoup(note)
+    notesoup = ""
+    try:
+        notesoup = BeautifulSoup(note)
+    except:
+        continue
     # 帖子的第一页
     siglines = notesoup.findAll('div', attrs={'style': 'width:85%;overflow-x: hidden;'})
     for sigline in siglines:
@@ -68,7 +72,11 @@ for link in urladmin.getallurl():
             except:
                 print "urlopen erro is here..."
                 continue
-            othernote = othernote.decode('gb18030')
+            othernote = ""
+            try:
+                othernote = othernote.decode('gb18030')
+            except:
+                continue
             othersoup = ""
             try:
                 othersoup = BeautifulSoup(othernote)

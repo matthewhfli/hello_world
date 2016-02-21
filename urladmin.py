@@ -86,7 +86,7 @@ def getallnoteurl():
         print page
 
         for i in range(1, page + 1):
-            if i > 1:
+            if i > 3:
                 break
             url = urlboard + "&action=&topicmode=0&page=" + str(i)
             # print url
