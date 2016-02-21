@@ -90,11 +90,11 @@ def getallnoteurl():
                 break
             url = urlboard + "&action=&topicmode=0&page=" + str(i)
             # print url
-
-            html = urllib2.urlopen(url).read()
-            html = html.decode('gb18030')
+            html=""
             soup = ""
             try:
+                html = urllib2.urlopen(url).read()
+                html = html.decode('gb18030')
                 soup = BeautifulSoup(html)
             except:
                 print "soup erro2"
