@@ -92,4 +92,4 @@ for link in links:
                     thefile = open(file_phone, 'a+')
                     thefile.write(myphone + "\n")
                     thefile.close()
-logging('parsing over')
+logging.info('parsing over')
