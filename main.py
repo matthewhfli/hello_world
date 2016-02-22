@@ -6,8 +6,7 @@ import re
 import functions
 import logging
 
-logging.basicConfig(filename='program.log',level=logging.DEBUG)
-logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(asctime)s %(message)s', filename='program.log',level=logging.DEBUG)
 urlhome = 'http://www.xx007.cn/'
 siglineset = set()
 phoneset = set()
