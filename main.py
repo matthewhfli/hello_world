@@ -25,7 +25,7 @@ with open(file_phone) as f:
     for line in content:
         phoneset.add(line)
 
-print "starting parse...."
+
 logging.info('geting allnoteurl start')
 links = urladmin.getallnoteurl()
 logging.info('parsing start')
