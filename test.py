@@ -27,14 +27,17 @@ import re
 import urllib2
 import json
 opener = urllib2.build_opener()
-f = opener.open('https://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=13762096719')
-s = '*'+f.read().decode('gbk')
+#f = opener.open('https://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=13762096719')
+f = opener.open('https://www.baifubao.com/callback?cmd=1059&callback=phone&phone=18637130240')
 
-ss = s[s.index('{'):]
+
+s = '*'+f.read()
+
+ss = s[s.index('('):]
 print ss
 #ss = '{"hello":"world","good":"morning"}'
-#j = json.loads(ss)
-#print j
+j = json.loads(ss)
+print j
 
 # encodedjson = json.dumps(s)
 # print encodedjson
