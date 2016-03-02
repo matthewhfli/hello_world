@@ -6,7 +6,7 @@ import re
 import functions
 import logging
 
-logging.basicConfig(format='%(asctime)s %(message)s', filename='program.log',level=logging.DEBUG)
+logging.basicConfig(format='%(asctime)s %(message)s', filename='program.log', level=logging.DEBUG)
 urlhome = 'http://www.xx007.cn/'
 siglineset = set()
 phoneset = set()
@@ -25,7 +25,6 @@ with open(file_phone) as f:
     for line in content:
         phoneset.add(line)
 
-
 logging.info('geting allnoteurl start')
 links = urladmin.getallnoteurl()
 logging.info('parsing start')
@@ -34,7 +33,7 @@ for link in links:
     note = ""
     notesoup = ""
     try:
-        note = urllib2.urlopen(link,timeout=30).read()
+        note = urllib2.urlopen(link, timeout=30).read()
         note = note.decode('gb18030')
         notesoup = BeautifulSoup(note)
     except:
@@ -51,13 +50,22 @@ for link in links:
             myfile = open(filename, 'a+')
             myfile.write(strsigline + "\n")
             myfile.close()
-        myphone = functions.get_phone(strsigline)
-        if myphone not in phoneset:
-            phoneset.add(myphone)
-            print myphone
-            thefile = open(file_phone, 'a+')
-            thefile.write(myphone + "\n")
-            thefile.close()
+        # myphone = functions.get_phone(strsigline)
+        # if myphone not in phoneset:
+        #     phoneset.add(myphone)
+        #     print myphone
+        #     thefile = open(file_phone, 'a+')
+        #     thefile.write(myphone + "\n")
+        #     thefile.close()
+
+        myphones = functions.get_phones(strsigline)
+        for myphone in myphones:
+            if myphone not in phoneset:
+                phoneset.add(myphone)
+                print myphone
+                thefile = open(file_phone, 'a+')
+                thefile.write(myphone + "\n")
+                thefile.close()
     # 帖子的其他页
     uurls = notesoup.findAll('a', attrs={'href': re.compile('^dispbbs.*')})
     if len(uurls):
@@ -68,7 +76,7 @@ for link in links:
             othernote = ""
             othersoup = ""
             try:
-                othernote = urllib2.urlopen(otherurl,timeout=30).read()
+                othernote = urllib2.urlopen(otherurl, timeout=30).read()
                 othernote = othernote.decode('gb18030')
                 othersoup = BeautifulSoup(othernote)
             except:
@@ -84,11 +92,20 @@ for link in links:
                     myfile = open(filename, 'a+')
                     myfile.write(strsigline + "\n")
                     myfile.close()
-                myphone = functions.get_phone(strsigline)
-                if myphone not in phoneset:
-                    phoneset.add(myphone)
-                    print myphone
-                    thefile = open(file_phone, 'a+')
-                    thefile.write(myphone + "\n")
-                    thefile.close()
+
+                myphones = functions.get_phones(strsigline)
+                for myphone in myphones:
+                    if myphone not in phoneset:
+                        phoneset.add(myphone)
+                        print myphone
+                        thefile = open(file_phone, 'a+')
+                        thefile.write(myphone + "\n")
+                        thefile.close()
+                # myphone = functions.get_phone(strsigline)
+                # if myphone not in phoneset:
+                #     phoneset.add(myphone)
+                #     print myphone
+                #     thefile = open(file_phone, 'a+')
+                #     thefile.write(myphone + "\n")
+                #     thefile.close()
 logging.info('parsing over')

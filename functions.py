@@ -34,6 +34,17 @@ def get_phone(line):
 
     return phone
 
+def get_phones(line):
+    phoneset = set()
+    info_list = line.split('<br/>')
+    for e in info_list:
+        if re.compile('电.*|固话.*|手机.*|电话.*|.*手机.*').match(e) and re.compile('.*1\d{10}').match(e) :
+            l = re.findall('1[3|5|7|8|][0-9]{9}',e)
+            for ee in l:
+                if ee not in phoneset:
+                    phoneset.add(ee)
+                    #print e
+    return phoneset
 
 def getboardurl():
     urlhome = 'http://www.xx007.cn/'

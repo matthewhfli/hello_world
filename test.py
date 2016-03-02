@@ -1,5 +1,6 @@
 # coding=utf-8
 import re
+import functions
 # import urladmin
 #
 # uset = urladmin.getallnoteurl()
@@ -24,20 +25,20 @@ import re
 #             print e
 # print phoneset.__len__()
 
-import urllib2
-import json
-opener = urllib2.build_opener()
-#f = opener.open('https://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=13762096719')
-f = opener.open('https://www.baifubao.com/callback?cmd=1059&callback=phone&phone=18637130240')
-
-
-s = '*'+f.read()
-
-ss = s[s.index('('):]
-print ss
-#ss = '{"hello":"world","good":"morning"}'
-j = json.loads(ss)
-print j
+# import urllib2
+# import json
+# opener = urllib2.build_opener()
+# #f = opener.open('https://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=13762096719')
+# f = opener.open('https://www.baifubao.com/callback?cmd=1059&callback=phone&phone=18637130240')
+#
+#
+# s = '*'+f.read()
+#
+# ss = s[s.index('('):]
+# print ss
+# #ss = '{"hello":"world","good":"morning"}'
+# j = json.loads(ss)
+# print j
 
 # encodedjson = json.dumps(s)
 # print encodedjson
@@ -49,4 +50,11 @@ print j
 #     print e
 
 
-#
+filename = "yichen.txt"
+with open(filename) as f:
+    content = f.read().splitlines()
+    for line in content:
+        print line
+        ps = functions.get_phones(line)
+        for p in ps:
+            print p
