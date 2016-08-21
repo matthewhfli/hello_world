@@ -16,9 +16,3 @@ links = soup.findAll('a')
 for link in links:
     print(link.text)
 
-#print html.decode('gb2312')
-
-
-
-#siglines = notesoup.findAll('div', attrs={'style': 'width:85%;overflow-x: hidden;'})
-
